@@ -17,7 +17,7 @@ public class Java8_랜덤구구단 {
 			if(menu == 1) {
 				int count = 0; // 정답 개수 체크
 				System.out.print("문제수를 입력해주세요 : ");
-				int num = s.nextInt();
+				int num = s.nextInt(); // 문제수
 				for(int i=1; i<=num; i++) {
 					int x = ran.nextInt(8)+2; // 2~9
 					int y = ran.nextInt(9)+1; // 1~9
