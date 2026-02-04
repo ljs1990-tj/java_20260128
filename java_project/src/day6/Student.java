@@ -1,4 +1,6 @@
-package day5;
+package day6;
+
+import day5.Human;
 
 public class Student extends Human{
 	String stuNo;
