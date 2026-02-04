@@ -47,6 +47,17 @@ public class Java99_퀴즈풀이 {
 //		배열 : {3, 7, 10, 6, 15, 2}
 //		5. 위 배열을 선언하고 배열 내에 있는 모든 숫자들의 합과 평균을 출력하시오.
 //		6. 위 배열을 선언하고 배열 내에서 짝수 중 가장 큰 값의 위치를 출력하시오.
+		int arr[] = {3, 7, 10, 6, 15, 2};
+		int evenIndex = 0;
+		for(int i=0; i<arr.length; i++) {
+			if(arr[i] % 2 == 0) {
+				if(arr[evenIndex] < arr[i]) {
+					evenIndex = i;
+				}
+			}
+			
+		}
+		System.out.println(evenIndex);
 //		int arr[] = {3, 7, 10, 6, 15, 2};
 //		int sum = 0;
 //		for(int i=0; i<arr.length; i++) {
@@ -58,14 +69,14 @@ public class Java99_퀴즈풀이 {
 //		Random 클래스를 이용해 구한 랜덤한 숫자 1~30 사이의 숫자 5개를 배열에 넣으시오.
 //		단, 홀수만 넣을 것.
 		Random ran = new Random();
-		int arr[] = new int[5];
-		for(int i=0; i<arr.length; i++) {
-			arr[i] = ran.nextInt(30)+1;
-			if(arr[i] % 2 == 0) {
-				i--;
-			}
-		}
-		System.out.println(Arrays.toString(arr));
+//		int arr[] = new int[5];
+//		for(int i=0; i<arr.length; i++) {
+//			arr[i] = ran.nextInt(30)+1;
+//			if(arr[i] % 2 == 0) {
+//				i--;
+//			}
+//		}
+//		System.out.println(Arrays.toString(arr));
 		
 	}
 }
