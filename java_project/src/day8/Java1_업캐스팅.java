@@ -1,5 +1,7 @@
 package day8;
 
+import java.util.ArrayList;
+
 public class Java1_업캐스팅 {
 	static void test1(Point p) {
 		if(p instanceof Point3D) {
@@ -24,6 +26,9 @@ public class Java1_업캐스팅 {
 		ColorPoint colorPoint = new ColorPoint(10, 20, "blue");
 		Point3D point3D = new Point3D(1,2,3);
 		PositivePoint positivePoint = new PositivePoint(5, 10);
+		
+		Point q;
+		q = colorPoint;
 		
 		test1(colorPoint);
 	}
