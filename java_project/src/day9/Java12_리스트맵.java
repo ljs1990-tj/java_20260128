@@ -29,6 +29,7 @@ public class Java12_리스트맵 {
 		
 		// 리스트에 있는 맵에서 나이(age)가 25이상인 맵에
 		// 나이를 +1 하기
+		// [{name=홍길동, age=30}, {name=김철수, age=25}, {name=박영희, age=20}]
 		for(int i=0; i<list.size(); i++) {
 			HashMap<String, Object> map = list.get(i);
 			if((int) map.get("age") >= 25) {
@@ -36,6 +37,5 @@ public class Java12_리스트맵 {
 			}
 		}
 		System.out.println(list);
-		
 	}
 }
