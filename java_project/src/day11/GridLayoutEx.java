@@ -24,7 +24,6 @@ public class GridLayoutEx extends JFrame{
 		for(int i=0; i<str.length; i++) {
 			c.add(new JButton(str[i]));
 		}
-	
 		
 		setSize(400, 500);
 		setVisible(true);
