@@ -30,4 +30,9 @@ public class WordQuiz {
 	public ArrayList<Word> getList(){
 		return list;
 	}
+	
+	public void setWord(String english, String korean) {
+		list.add(new Word(english, korean));
+	}
+	
 }
