@@ -80,7 +80,7 @@ public class Java6_과일가게 {
 					}
 				}
 			} else {
-				System.out.println("해당 과일은 존재하지 않습니다");
+				System.out.println(Message.faileMsg);
 			}
 			
 		} catch (Exception e) {
@@ -126,7 +126,7 @@ public class Java6_과일가게 {
 				System.out.print(rs.getInt("PRICE") + " | ");
 				System.out.println(rs.getInt("COUNT"));
 			} else {
-				System.out.println("해당 이름의 과일 없음!");
+				System.out.println(Message.faileMsg);
 			}
 			
 		} catch (Exception e) {
@@ -136,6 +136,39 @@ public class Java6_과일가게 {
 		}
 	}
 
+	public static void sellFruit(Statement stmt) {
+		try {
+			Scanner s = new Scanner(System.in);
+			System.out.print("과일 이름 : ");
+			String name = s.next();
+			String sql = "SELECT * FROM TBL_FRUIT WHERE NAME = '"+ name + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				System.out.print("판매 개수 : ");
+				int count = s.nextInt();
+				if(rs.getInt("COUNT") >= count) {
+					sql = "UPDATE TBL_FRUIT SET "
+							+ "COUNT = " + (rs.getInt("COUNT") - count)
+							+ " WHERE NAME = '" + name + "'"
+					;
+					int result = stmt.executeUpdate(sql);
+					if(result > 0) {
+						System.out.println("판매했습니다!");
+					}
+				} else {
+					System.out.println("물량 부족! 현재 판매 가능한 개수는 " + rs.getInt("COUNT"));
+				}
+				
+				
+			} else {
+				System.out.println(Message.faileMsg);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner s = new Scanner(System.in);
@@ -143,17 +176,18 @@ public class Java6_과일가게 {
 		Statement stmt = db.getStmt();
 		
 		try {
-			// 1. 과일 추가, 2. 과일 판매, 3. 가격 수정, 4. 과일 삭제. 5. 종료
-			while(true) {
+			// 1. 과일 추가, 2. 과일 판매, 3. 가격 수정, 4. 과일 삭제. 5. 확인
+			boolean flg = true;
+			while(flg) {
 				// select-search, update-edit, delete-remove, insert-add
-				System.out.print("[1.과일 추가, 2.과일 판매, 3.가격 수정, 4.과일 삭제, 5.과일 확인] : ");
+				System.out.print("[1.과일 추가, 2.과일 판매, 3.가격 수정, 4.과일 삭제, 5.과일 확인, 6.종료] : ");
 				int menu = s.nextInt();
 				switch (menu) {
 				case 1:
 					addFruit(stmt);
 					break;
 				case 2:
-					
+					sellFruit(stmt);
 					break;
 				case 3:
 					
@@ -163,6 +197,10 @@ public class Java6_과일가게 {
 					break;
 				case 5:
 					searchFruit(stmt);
+					break;
+				case 6:
+					System.out.println("종료되었습니다!");
+					flg = !flg; // flg = false
 					break;
 				default:
 					System.out.println("1~5 사이 메뉴 선택하세요.");
