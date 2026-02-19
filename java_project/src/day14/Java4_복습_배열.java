@@ -26,7 +26,6 @@ public class Java4_복습_배열 {
 			map.put(arr[i], map.get(arr[i])+1);
 		}
 		System.out.println(Arrays.toString(arr));
-		
 		System.out.println(map);
 		
 	}
