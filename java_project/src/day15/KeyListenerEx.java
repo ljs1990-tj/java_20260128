@@ -24,12 +24,14 @@ public class KeyListenerEx extends JFrame {
 				// TODO Auto-generated method stub
 				int keyCode = e.getKeyCode();
 				char keyChar = e.getKeyChar();
+				
 				keyMessage[0].setText(Integer.toString(keyCode));
 				keyMessage[1].setText(Character.toString(keyChar));
 				keyMessage[2].setText(e.getKeyText(keyCode));
+				
 			}
 		});
-
+		
 		keyMessage = new JLabel[3];
 		keyMessage[0] = new JLabel(" getKeyCode() ");
 		keyMessage[1] = new JLabel(" getKeyChar() ");
