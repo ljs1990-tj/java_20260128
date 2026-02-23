@@ -42,8 +42,77 @@ public class 수도퀴즈_DB {
 			System.out.println(e.getMessage());
 		}
 	}
-	public static void addQuiz(Statement stmt) {}
-	public static void editQuiz(Statement stmt) {}
+	public static void addQuiz(Statement stmt) {
+		try {
+			// 추가할 나라 이름 입력 받은 후 db에 있는지 없는지 확인
+			System.out.print("추가할 나라 이름 : ");
+			String country = s.next();
+			String sql = "SELECT * FROM TBL_QUIZ WHERE COUNTRY = '" + country + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				System.out.println("이미 등록된 나라 입니다.");
+			} else {
+				System.out.print("수도를 입력해주세요 : ");
+				String capital = s.next();
+				sql = "INSERT INTO TBL_QUIZ VALUES(QUIZ_SEQ.NEXTVAL, "
+						+ "'" + country + "',"
+						+ "'" + capital + "')";
+				int result = stmt.executeUpdate(sql);
+				if(result > 0) {
+					System.out.println("등록되었다!");
+				} else {
+					System.out.println("등록에 실패함");
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	public static void editQuiz(Statement stmt) {
+		
+		try {
+			System.out.print("수정할 나라 이름 : ");
+			String country = s.next();
+			String sql = "SELECT * FROM TBL_QUIZ WHERE COUNTRY = '" + country + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				System.out.print("현재 등록된 수도명은 " + rs.getString("CAPITAL") + " 입니다.");
+				System.out.print("수정 하실래? (Y/N) ");
+				while(true) {
+					String yn = s.next();
+					if(yn.toLowerCase().equals("y")) {
+						System.out.print("수정할 수도명 : ");
+						String capital = s.next();
+						sql = "UPDATE TBL_QUIZ SET "
+							+ "CAPITAL = '" + capital + "' "
+							+ "WHERE COUNTRY = '" + country + "'";
+						int result = stmt.executeUpdate(sql);
+						if(result > 0) {
+							System.out.println("수정 됨!");
+						} else {
+							System.out.println("실패 함!");
+						}
+						break;
+					} else if(yn.toLowerCase().equals("n")) {
+						break;
+					} else {
+						System.out.print("Y/N 중에 입력하셈 : ");
+					}
+				}
+					
+				
+			} else {
+				System.out.println("없는 나라 이름임");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 	public static void removeQuiz(Statement stmt) {}
 	
 	public static void main(String[] args) {
