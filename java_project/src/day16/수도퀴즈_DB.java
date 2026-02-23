@@ -1,5 +1,6 @@
 package day16;
 
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -10,7 +11,32 @@ public class 수도퀴즈_DB {
 
 	public static void runQuiz(Statement stmt) {
 		try {
-			String sql = "SELECT * FROM (SELECT * FROM TBL_QUIZ ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM <= 5";
+			int count = 0;
+			while(true) {
+				System.out.print("문제 수 입력 : ");
+				count = s.nextInt();
+				if(count >= 3 && count <= 10) {
+					break;
+				}
+				System.out.println("3~10사이의 수 입력하셈.");
+			}
+			
+			String sql = "SELECT * FROM (SELECT * FROM TBL_QUIZ ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM <= " + count;
+			ResultSet rs = stmt.executeQuery(sql);
+			int quizNum = 1;
+			int correctNum = 0;
+			while(rs.next()) {
+				System.out.print(quizNum + "번) " + rs.getString("COUNTRY") + " : ");
+				quizNum++;
+				String answer = s.next();
+				if(answer.equals(rs.getString("CAPITAL"))) {
+					System.out.println("정답!");
+					correctNum++;
+				} else {
+					System.out.println("오답! 정답은 " + rs.getString("CAPITAL"));
+				}
+			}
+			System.out.println(count + "개 문제 중 " + correctNum + "개 정답!");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
