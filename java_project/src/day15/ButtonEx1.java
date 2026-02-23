@@ -41,6 +41,8 @@ public class ButtonEx1 extends JFrame {
 //				e.getSource();
 				Random ran = new Random();
 				btn3.setForeground(new Color(ran.nextInt(256),ran.nextInt(256),ran.nextInt(256)));
+				btn3.setLocation(ran.nextInt(200), ran.nextInt(200));
+				btn1.setText("zz");
 			}
 		});
 		
