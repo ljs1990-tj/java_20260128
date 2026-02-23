@@ -1,25 +1,27 @@
 package day16;
 
 import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class Quiz1 extends JFrame {
+public class Quiz2 extends JFrame {
+	Random ran = new Random();
+	ArrayList<Integer> list = new ArrayList<>();
 	int num = 1;
 	Container c;
-	Random ran = new Random();
 	long startTime ;
-	public Quiz1() {
+	public Quiz2() {
 		// TODO Auto-generated constructor stub
 		setTitle("첫번째 화면!!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		c = getContentPane();
-		c.setLayout(null);
+		c.setLayout(new GridLayout(5, 5, 5, 5));
 		
 		createBtn();
 		
@@ -28,46 +30,45 @@ public class Quiz1 extends JFrame {
 	}
 	
 	void createBtn() {
-		for(int i=1; i<=10; i++) {
-			JButton btn = new JButton(i + "");
-			btn.setLocation(ran.nextInt(500), ran.nextInt(500));
-			btn.setSize(50,50);
-			
+		for(int i=1; i<=25; i++) {
+			int ranNum = ran.nextInt(25) + 1;
+			if(list.contains(ranNum)) {
+				i--;
+				continue;
+			}
+			list.add(ranNum);
+			JButton btn = new JButton(ranNum + "");
 			btn.addActionListener(new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					JButton selectBtn = (JButton) e.getSource();
-					
-//					Integer.parseInt(selectBtn.getText()); // 문자를 숫자로
-//					Integer.toString(num); // 숫자를 문자로
-					String removeNum = num + "";
-					if(selectBtn.getText().equals(removeNum)) {
+					JButton removeBtn = (JButton) e.getSource();
+					if(removeBtn.getText().equals(num + "")) {
 						if(num == 1) {
 							startTime = System.currentTimeMillis();
 						}
-						
-						c.remove(selectBtn);
+						c.remove(removeBtn);
 						c.repaint();
 						num++;
-						if(num == 11) {
+						if(num == 26) {
 							long lastTime = System.currentTimeMillis();
-							System.out.println((lastTime - startTime) / 1000.0);
-							createBtn();
+							System.out.println((lastTime - startTime) / 1000.0 );
 							num = 1;
+							list.clear();
+							createBtn();
+							c.revalidate();
+							c.repaint();
 						}
 					}
 				}
 			});
-			
 			c.add(btn);
 		}
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Quiz1();
+		new Quiz2();
 	}
 
 }
