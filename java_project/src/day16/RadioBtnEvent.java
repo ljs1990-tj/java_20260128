@@ -13,14 +13,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 public class RadioBtnEvent extends JFrame {
 	JRadioButton radio[] = new JRadioButton[3];
 	String text[] = {"사과", "배", "체리"};
 	ImageIcon image[] = {
-			new ImageIcon("image/RYAN_1.jpg"),
-			new ImageIcon("image/RYAN_2.jpg"),
-			new ImageIcon("image/RYAN_3.jpg")
+			new ImageIcon("images/RYAN_1.jpg"),
+			new ImageIcon("images/RYAN_2.jpg"),
+			new ImageIcon("images/RYAN_3.jpg")
 	};
 	JLabel imageLabel = new JLabel();
 	
@@ -62,6 +63,7 @@ public class RadioBtnEvent extends JFrame {
 		radio[2].setSelected(true);
 		c.add(radioPanel, BorderLayout.NORTH);
 		c.add(imageLabel, BorderLayout.CENTER);
+		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		setSize(300, 300);
 		setVisible(true);
