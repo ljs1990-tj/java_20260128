@@ -9,6 +9,55 @@ import day13.DBClass;
 public class 수도퀴즈_DB {
 	static Scanner s = new Scanner(System.in);
 
+	public static boolean login(Statement stmt) {
+		try {
+			while(true) {
+				System.out.print("[ 1. 로그인, 2. 회원가입, 3. 종료 ] : ");
+				int menu = s.nextInt();
+				if(menu == 1) {
+					
+					return true;
+				} else if(menu == 2) {
+					System.out.print("아이디 : ");
+					String id = s.next();
+					String sql = "SELECT * FROM TBL_USER WHERE USERID = '" + id + "'";
+					ResultSet rs = stmt.executeQuery(sql);
+					if(rs.next()) {
+						System.out.println("이미 사용중인 아이디입니다.");
+					} else {
+						System.out.print("비밀번호 : ");
+						String pwd = s.next();
+						System.out.print("이름 : ");
+						String name = s.next();
+						sql = "INSERT INTO TBL_USER VALUES("
+							+ "'" + id + "',"
+							+ "'" + pwd + "',"
+							+ "'" + name + "')";
+						int result = stmt.executeUpdate(sql);
+						if(result > 0) {
+							System.out.println(name + "님 회원가입을 환영합니다!");
+						} else {
+							System.out.println("오류가 발생했음. 다시 시도 해주셈");
+						}
+						
+					}
+					
+				} else if(menu == 3) {
+					System.out.println("종료되었습니다.");
+					return false;
+				} else {
+					System.out.println("1~3중에 선택해주세요.");
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		
+		return true;
+	}
+	
+	
 	public static void runQuiz(Statement stmt) {
 		try {
 			int count = 0;
@@ -120,7 +169,10 @@ public class 수도퀴즈_DB {
 		// 1. 문제 풀이, 2. 문제 추가, 3. 문제 수정, 4. 문제 삭제, 5. 종료
 		DBClass db = new DBClass();
 		Statement stmt = db.getStmt();
-		boolean closeFlg = true;
+		
+		boolean closeFlg = login(stmt);
+		
+//		boolean closeFlg = true;
 		while(closeFlg) {
 			System.out.print("[ 1. 문제 풀이, 2. 문제 추가, 3. 문제 수정, 4. 문제 삭제, 5. 종료 ] : ");
 			int menu = s.nextInt();
