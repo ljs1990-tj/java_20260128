@@ -2,6 +2,7 @@ package day16;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import day13.DBClass;
@@ -9,14 +10,32 @@ import day13.DBClass;
 public class 수도퀴즈_DB {
 	static Scanner s = new Scanner(System.in);
 
-	public static boolean login(Statement stmt) {
+	public static HashMap<String, Object> login(Statement stmt) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("loginFlg", false);
 		try {
 			while(true) {
 				System.out.print("[ 1. 로그인, 2. 회원가입, 3. 종료 ] : ");
 				int menu = s.nextInt();
 				if(menu == 1) {
+					System.out.print("아이디 : ");
+					String id = s.next();
+					System.out.print("비밀번호 : ");
+					String pwd = s.next();
+					String sql = "SELECT * FROM TBL_USER " 
+								+ "WHERE USERID = '" + id + "' AND PWD = '" + pwd + "'";
+					ResultSet rs = stmt.executeQuery(sql);
+					if(rs.next()) {
+						System.out.println(rs.getString("USERNAME") + "님, 안녕하세요!");
+						
+						map.put("id", rs.getString("USERID"));
+						map.put("name", rs.getString("USERNAME"));
+						map.put("loginFlg", true);
+						return map;
+					} else {
+						System.out.println("아이디/비밀번호 확인해주셈");
+					}
 					
-					return true;
 				} else if(menu == 2) {
 					System.out.print("아이디 : ");
 					String id = s.next();
@@ -44,7 +63,7 @@ public class 수도퀴즈_DB {
 					
 				} else if(menu == 3) {
 					System.out.println("종료되었습니다.");
-					return false;
+					return map;
 				} else {
 					System.out.println("1~3중에 선택해주세요.");
 				}
@@ -54,7 +73,7 @@ public class 수도퀴즈_DB {
 			System.out.println(e.getMessage());
 		}
 		
-		return true;
+		return map;
 	}
 	
 	
@@ -170,10 +189,12 @@ public class 수도퀴즈_DB {
 		DBClass db = new DBClass();
 		Statement stmt = db.getStmt();
 		
-		boolean closeFlg = login(stmt);
-		
-//		boolean closeFlg = true;
+		HashMap<String, Object> map = login(stmt);
+		boolean closeFlg = (boolean) map.get("loginFlg");
 		while(closeFlg) {
+			String id = (String) map.get("id");
+			System.out.println(id + "님 메뉴를 선택해주세요!");
+			
 			System.out.print("[ 1. 문제 풀이, 2. 문제 추가, 3. 문제 수정, 4. 문제 삭제, 5. 종료 ] : ");
 			int menu = s.nextInt();
 			switch (menu) {
