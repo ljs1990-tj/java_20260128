@@ -2,6 +2,7 @@ package day16;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -77,7 +78,7 @@ public class 수도퀴즈_DB {
 	}
 	
 	
-	public static void runQuiz(Statement stmt) {
+	public static void runQuiz(Statement stmt, String id) {
 		try {
 			int count = 0;
 			while(true) {
@@ -93,6 +94,8 @@ public class 수도퀴즈_DB {
 			ResultSet rs = stmt.executeQuery(sql);
 			int quizNum = 1;
 			int correctNum = 0;
+			ArrayList<HashMap<String, String>> list = new ArrayList<>();
+			
 			while(rs.next()) {
 				System.out.print(quizNum + "번) " + rs.getString("COUNTRY") + " : ");
 				quizNum++;
@@ -102,7 +105,32 @@ public class 수도퀴즈_DB {
 					correctNum++;
 				} else {
 					System.out.println("오답! 정답은 " + rs.getString("CAPITAL"));
+					HashMap<String, String> map = new HashMap<>();
+					map.put("QUIZ_ID", rs.getString("QUIZ_ID"));
+					map.put("COUNTRY", rs.getString("COUNTRY"));
+					map.put("CAPITAL", rs.getString("CAPITAL"));
+					list.add(map);
+					
+//					sql = "SELECT * FROM TBL_NOTE "
+//						+ "WHERE USERID = '" + id + "' AND QUIZ_ID = " + rs.getInt("QUIZ_ID");
+//					ResultSet rs2 = stmt.executeQuery(sql);
+//					if(rs2.next()) {
+//						System.out.println("이미 등록됨");
+//					} else {
+//						System.out.println("추가"); 
+//					}
+					
+//					sql = "INSERT INTO TBL_NOTE VALUES("
+//						+ "'" + id + "',"
+//						+ "'" + rs.getString("QUIZ_ID") + "',"
+//						+ "'" + rs.getString("COUNTRY") + "',"
+//						+ "'" + rs.getString("CAPITAL") + "')";
+//					stmt.executeUpdate(sql);
 				}
+			}
+			System.out.println(list);
+			for(int i=0; i<list.size(); i++) {
+				// insert 쿼리 실행
 			}
 			System.out.println(count + "개 문제 중 " + correctNum + "개 정답!");
 		} catch (Exception e) {
@@ -199,7 +227,7 @@ public class 수도퀴즈_DB {
 			int menu = s.nextInt();
 			switch (menu) {
 			case 1:
-				runQuiz(stmt);
+				runQuiz(stmt, id);
 				break;
 			case 2:
 				addQuiz(stmt);
